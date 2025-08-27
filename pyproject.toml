@@ -12,7 +12,7 @@ keywords = [
     "Pokemon",
 ]
 dependencies = [
-    "singer-sdk~=0.47.4",
+    "singer-sdk~=0.48.1",
     "requests-cache~=1.2.0 ; python_version < '4'",
 ]
 
