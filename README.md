@@ -52,8 +52,8 @@ tap-pokemon --config CONFIG --discover > ./catalog.json
 ### Initialize your Development Environment
 
 ```bash
-pipx install poetry
-poetry install
+curl -LsSf https://astral.sh/uv/install.sh | sh  # or follow https://docs.astral.sh/uv/getting-started/installation/
+uv sync
 ```
 
 ### Create and Run Tests
@@ -61,13 +61,13 @@ poetry install
 Create tests within the `tests` subfolder and then run:
 
 ```bash
-poetry run pytest
+uv run pytest
 ```
 
-You can also test the `tap-pokemon` CLI interface directly using `poetry run`:
+You can also test the `tap-pokemon` CLI interface directly using `uv run`:
 
 ```bash
-poetry run tap-pokemon --help
+uv run tap-pokemon --help
 ```
 
 ### Testing with [Meltano](https://www.meltano.com)
@@ -82,7 +82,7 @@ Next, install Meltano (if you haven't already) and any needed plugins:
 
 ```bash
 # Install meltano
-pipx install meltano
+uv tool install meltano
 # Initialize meltano within this directory
 cd tap-pokemon
 meltano install
@@ -93,8 +93,8 @@ Now you can test and orchestrate using Meltano:
 ```bash
 # Test invocation:
 meltano invoke tap-pokemon --version
-# OR run a test `elt` pipeline:
-meltano elt tap-pokemon target-jsonl
+# OR run a test EL pipeline:
+meltano run tap-pokemon target-jsonl
 ```
 
 ### SDK Dev Guide

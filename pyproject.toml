@@ -1,26 +1,35 @@
-[tool.poetry]
+[project]
 name = "tap-pokemon"
 version = "0.0.1"
 description = "`tap-pokemon` is a Singer tap for Pokemon, built with the Meltano SDK for Singer Taps."
-authors = ["Edgar Ramírez-Mondragón <edgarrm358@gmail.com>"]
-keywords = [
-  "ELT",
-  "singer.io",
-  "Pokemon",
-]
-license = "Apache-2.0"
+authors = [{ name = "Edgar Ramírez-Mondragón", email = "edgarrm358@gmail.com" }]
+requires-python = ">=3.9"
 readme = "README.md"
-homepage = "https://github.com/edgarrmondragon/tap-pokemon"
-repository = "https://github.com/edgarrmondragon/tap-pokemon"
-documentation = "https://github.com/edgarrmondragon/tap-pokemon#readme"
+license = "Apache-2.0"
+keywords = [
+    "ELT",
+    "singer.io",
+    "Pokemon",
+]
+dependencies = [
+    "singer-sdk~=0.47.4",
+    "requests-cache~=1.2.0 ; python_version < '4'",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.9"
-singer-sdk = "~=0.47.4"
-requests-cache = { version = "~=1.2.0", python = "<4" }
+[project.urls]
+Homepage = "https://github.com/edgarrmondragon/tap-pokemon"
+Repository = "https://github.com/edgarrmondragon/tap-pokemon"
+Documentation = "https://github.com/edgarrmondragon/tap-pokemon#readme"
 
-[tool.poetry.dev-dependencies]
-pytest = "~=8.4"
+[project.scripts]
+tap-pokemon = "tap_pokemon.tap:TapPokemon.cli"
+
+[dependency-groups]
+dev = ["pytest~=8.4"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.pytest.ini_options]
 addopts = "-vvv"
@@ -31,14 +40,6 @@ warn_unused_configs = true
 [[tool.mypy.overrides]]
 ignore_missing_imports = true
 module = ["backoff.*"]
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.scripts]
-# CLI declaration
-"tap-pokemon" = "tap_pokemon.tap:TapPokemon.cli"
 
 [tool.ruff]
 line-length = 88

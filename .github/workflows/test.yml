@@ -10,25 +10,25 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SETUPTOOLS_USE_DISTUTILS: stdlib
-      PIP_CONSTRAINT: ${{ github.workspace }}/.github/workflows/constraints.txt
+      PIP_CONSTRAINT: ${{ github.workspace }}/.github/workflows/requirements.txt
     strategy:
       fail-fast: false
       matrix:
         python-version:
-        - "3.9"
         - "3.10"
         - "3.11"
         - "3.12"
         - "3.13"
+        - "3.14"
 
     steps:
-    - uses: actions/checkout@v5.0.0
-    - uses: actions/setup-python@v5.6.0
+    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+    - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
       id: setup-python
       with:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: true
-    - uses: astral-sh/setup-uv@v6
+    - uses: astral-sh/setup-uv@4959332f0f014c5280e7eac8b70c90cb574c9f9b # v6.6.0
       with:
         version: ">=0.4.18"
     - run: uvx tox -e $(echo py${{ matrix.python-version }} | tr -d .)
