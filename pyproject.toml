@@ -17,9 +17,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/edgarrmondragon/tap-pokemon"
-Repository = "https://github.com/edgarrmondragon/tap-pokemon"
-Documentation = "https://github.com/edgarrmondragon/tap-pokemon#readme"
+Homepage = "https://github.com/reservoir-data/tap-pokemon"
+Repository = "https://github.com/reservoir-data/tap-pokemon"
+Documentation = "https://github.com/reservoir-data/tap-pokemon#readme"
 
 [project.scripts]
 tap-pokemon = "tap_pokemon.tap:TapPokemon.cli"
