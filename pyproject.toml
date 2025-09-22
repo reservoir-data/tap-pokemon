@@ -3,7 +3,7 @@ name = "tap-pokemon"
 version = "0.0.1"
 description = "`tap-pokemon` is a Singer tap for Pokemon, built with the Meltano SDK for Singer Taps."
 authors = [{ name = "Edgar Ramírez-Mondragón", email = "edgarrm358@gmail.com" }]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 readme = "README.md"
 license = "Apache-2.0"
 keywords = [
@@ -12,7 +12,7 @@ keywords = [
     "Pokemon",
 ]
 dependencies = [
-    "singer-sdk~=0.48.1",
+    "singer-sdk~=0.49.1",
     "requests-cache~=1.2.0 ; python_version < '4'",
 ]
 
