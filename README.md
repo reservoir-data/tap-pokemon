@@ -47,8 +47,6 @@ tap-pokemon --config CONFIG --discover > ./catalog.json
 
 ## Developer Resources
 
-- [ ] `Developer TODO:` As a first step, scan the entire project for the text "`TODO:`" and complete any recommended steps, deleting the "TODO" references once completed.
-
 ### Initialize your Development Environment
 
 ```bash
@@ -75,26 +73,11 @@ uv run tap-pokemon --help
 _**Note:** This tap will work in any Singer environment and does not require Meltano.
 Examples here are for convenience and to streamline end-to-end orchestration scenarios._
 
-Your project comes with a custom `meltano.yml` project file already created. Open the `meltano.yml` and follow any _"TODO"_ items listed in
-the file.
-
-Next, install Meltano (if you haven't already) and any needed plugins:
+Use Meltano to run an EL pipeline:
 
 ```bash
-# Install meltano
-uv tool install meltano
-# Initialize meltano within this directory
-cd tap-pokemon
-meltano install
-```
-
-Now you can test and orchestrate using Meltano:
-
-```bash
-# Test invocation:
-meltano invoke tap-pokemon --version
-# OR run a test EL pipeline:
-meltano run tap-pokemon target-jsonl
+uvx meltano invoke tap-pokemon --version
+uvx meltano run tap-pokemon target-jsonl
 ```
 
 ### SDK Dev Guide
