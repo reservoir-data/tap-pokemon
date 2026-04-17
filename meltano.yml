@@ -7,7 +7,7 @@ plugins:
     label: Pokemon
     namespace: pokemon
     description: The Pokémon API
-    repository: https://github.com/reservoir-data/tap-pokemon
+    repo: https://github.com/reservoir-data/tap-pokemon
     docs: https://github.com/reservoir-data/tap-pokemon#readme
     pip_url: -e .
     capabilities:

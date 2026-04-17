@@ -1,66 +1,78 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = [ "hatchling" ]
+
 [project]
 name = "tap-pokemon"
 version = "0.0.1"
 description = "`tap-pokemon` is a Singer tap for Pokemon, built with the Meltano SDK for Singer Taps."
-authors = [{ name = "Edgar Ramírez-Mondragón", email = "edgarrm358@gmail.com" }]
-requires-python = ">=3.10"
 readme = "README.md"
-license = "Apache-2.0"
 keywords = [
-    "ELT",
-    "singer.io",
-    "Pokemon",
+  "ELT",
+  "Pokemon",
+  "singer.io",
+]
+license = "Apache-2.0"
+requires-python = ">=3.11"
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-    "singer-sdk~=0.54.0a4",
-    "requests-cache~=1.3.0; python_version < '4'",
+  "requests-cache~=1.3.0; python_version<'4'",
+  "singer-sdk~=0.54.0a4",
 ]
-
-[project.urls]
-Homepage = "https://github.com/reservoir-data/tap-pokemon"
-Repository = "https://github.com/reservoir-data/tap-pokemon"
-Documentation = "https://github.com/reservoir-data/tap-pokemon#readme"
-
+[[project.authors]]
+name = "Edgar Ramírez-Mondragón"
+email = "edgarrm358@gmail.com"
 [project.scripts]
 tap-pokemon = "tap_pokemon.tap:TapPokemon.cli"
+[project.urls]
+Documentation = "https://github.com/reservoir-data/tap-pokemon#readme"
+Homepage = "https://github.com/reservoir-data/tap-pokemon"
+Repository = "https://github.com/reservoir-data/tap-pokemon"
 
 [dependency-groups]
-dev = ["pytest~=9.0"]
+dev = [ "pytest~=9.0" ]
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+[tool.ruff]
+line-length = 88
+[tool.ruff.lint]
+select = [ "ALL" ]
+ignore = [
+  "ANN101", # missing-type-self
+  "COM812", # missing-trailing-comma
+  "DJ",     # flake8-django
+  "ISC001", # single-line-implicit-string-concatenation
+  "PD",     # pandas-vet
+]
+per-file-ignores."noxfile.py" = [ "ANN" ]
+per-file-ignores."tests/*" = [ "ANN" ]
+flake8-annotations.allow-star-arg-any = true
+isort.known-first-party = [ "tap_neon" ]
+isort.required-imports = [ "from __future__ import annotations" ]
+pydocstyle.convention = "google"
 
-[tool.pytest.ini_options]
-addopts = "-vvv"
+[tool.pyproject-fmt]
+table_format = "long"
 
 [tool.mypy]
 warn_unused_configs = true
 
-[tool.ruff]
-line-length = 88
-target-version = "py39"
-
-[tool.ruff.lint]
-ignore = [
-  "ANN101",  # missing-type-self
-  "DJ",      # flake8-django
-  "PD",      # pandas-vet
-  "COM812",  # missing-trailing-comma
-  "ISC001",  # single-line-implicit-string-concatenation
+[tool.pytest]
+addopts = [
+  "-v",
+  "-ra",
 ]
-select = ["ALL"]
-
-[tool.ruff.lint.flake8-annotations]
-allow-star-arg-any = true
-
-[tool.ruff.lint.isort]
-known-first-party = ["tap_neon"]
-required-imports = ["from __future__ import annotations"]
-
-[tool.ruff.lint.per-file-ignores]
-"noxfile.py" = ["ANN"]
-"tests/*" = ["ANN"]
-
-[tool.ruff.lint.pydocstyle]
-convention = "google"
+filterwarnings = [
+  "error",
+  "once:No records were available to test:UserWarning",
+  "once:Fields in transformed catalog but not in records:UserWarning",
+]
+log_level = "INFO"
+minversion = "9"
+strict = true
+testpaths = [ "tests" ]

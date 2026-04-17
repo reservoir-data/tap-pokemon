@@ -15,6 +15,11 @@ repos:
   - id: end-of-file-fixer
   - id: trailing-whitespace
 
+- repo: https://github.com/tox-dev/pyproject-fmt
+  rev: v2.21.0
+  hooks:
+  - id: pyproject-fmt
+
 - repo: https://github.com/astral-sh/ruff-pre-commit
   rev: v0.15.8
   hooks:
@@ -22,15 +27,23 @@ repos:
     args: [--fix, --exit-non-zero-on-fix, --show-fixes]
   - id: ruff-format
 
-- repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.19.1
+- repo: https://github.com/python-jsonschema/check-jsonschema
+  rev: 0.37.1
   hooks:
-  - id: mypy
-    pass_filenames: true
+  - id: check-github-workflows
+  - id: check-meltano
+  - id: check-renovate
+    language: python
     additional_dependencies:
-    - types-requests
+    - pyjson5==2.0.0
 
-- repo: https://github.com/pre-commit/pre-commit
-  rev: v4.5.1
+- repo: https://github.com/astral-sh/uv-pre-commit
+  rev: 0.11.3
   hooks:
-  - id: validate_manifest
+  - id: uv-lock
+  - id: uv-sync
+
+- repo: https://github.com/hukkin/mdformat
+  rev: 1.0.0
+  hooks:
+  - id: mdformat

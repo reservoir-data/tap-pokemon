@@ -1,0 +1,49 @@
+name: Test tap-pokemon
+
+on: [push]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  FORCE_COLOR: 1
+
+jobs:
+  build-package:
+    name: Build & verify package
+    runs-on: ubuntu-24.04
+    outputs:
+      supported-python-versions: ${{ steps.baipp.outputs.supported_python_classifiers_json_array }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: hynek/build-and-inspect-python-package@fe0a0fb1925ca263d076ca4f2c13e93a6e92a33e # v2.17.0
+        id: baipp
+
+  tests:
+    name: Test
+    runs-on: ubuntu-24.04
+    needs: build-package
+    env:
+      PIP_CONSTRAINT: ${{ github.workspace }}/.github/workflows/requirements.txt
+    strategy:
+      max-parallel: 1
+      matrix:
+        python-version: ${{ fromJson(needs.build-package.outputs.supported-python-versions) }}
+
+    steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
+    - uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8.0.0
+      with:
+        python-version: ${{ matrix.python-version }}
+        version: ">=0.4.18"
+    - run: uvx tox -e ${MATRIX_PYTHON_VERSION}
+      env:
+        MATRIX_PYTHON_VERSION: ${{ matrix.python-version }}
