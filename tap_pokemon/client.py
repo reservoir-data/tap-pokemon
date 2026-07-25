@@ -1,20 +1,32 @@
+# Copyright (c) 2026 Edgar-Ramírez Mondragón
+
 """REST client handling, including PokemonStream base class."""
 
 from __future__ import annotations
 
-from typing import Any
+import sys
+from typing import TYPE_CHECKING, Any
 from urllib.parse import parse_qs, urlparse
 
 from singer_sdk import RESTStream
+
+if sys.version_info >= (3, 12):
+    from typing import override
+else:
+    from typing_extensions import override
+
+if TYPE_CHECKING:
+    from singer_sdk.helpers.types import Context
 
 
 class PokemonStream(RESTStream):
     """Pokemon stream class."""
 
     records_jsonpath = "$.results[*]"
-    next_page_token_jsonpath = "$.next"  # noqa: S105
+    next_page_token_jsonpath = "$.next"  # ruff: ignore[hardcoded-password-string]
 
     @property
+    @override
     def url_base(self) -> str:
         """Base URL of the Pokémon API.
 
@@ -24,17 +36,15 @@ class PokemonStream(RESTStream):
         return self.config["base_url"]
 
     @property
+    @override
     def http_headers(self) -> dict:
-        """Return the http headers needed.
-
-        Returns:
-            A dictionary of HTTP headers.
-        """
+        """The HTTP headers."""
         return {"User-Agent": f"{self.tap_name}/{self._tap.plugin_version}"}
 
+    @override
     def get_url_params(
         self,
-        context: dict | None,  # noqa: ARG002
+        context: Context | None,
         next_page_token: str | None,
     ) -> dict[str, Any]:
         """Get URL query parameters.

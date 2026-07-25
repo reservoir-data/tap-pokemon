@@ -24,6 +24,7 @@ classifiers = [
 dependencies = [
   "requests-cache~=1.3.0; python_version<'4'",
   "singer-sdk~=0.55.0a1",
+  "typing-extensions~=4.0; python_full_version<'3.12'"
 ]
 [[project.authors]]
 name = "Edgar Ramírez-Mondragón"
@@ -39,15 +40,14 @@ Repository = "https://github.com/reservoir-data/tap-pokemon"
 dev = [ "pytest~=9.0" ]
 
 [tool.ruff]
+required-version = ">=0.16"
 line-length = 88
+preview = true
 [tool.ruff.lint]
 select = [ "ALL" ]
 ignore = [
-  "ANN101", # missing-type-self
-  "COM812", # missing-trailing-comma
-  "DJ",     # flake8-django
-  "ISC001", # single-line-implicit-string-concatenation
-  "PD",     # pandas-vet
+  "missing-trailing-comma",
+  "single-line-implicit-string-concatenation",
 ]
 per-file-ignores."noxfile.py" = [ "ANN" ]
 per-file-ignores."tests/*" = [ "ANN" ]

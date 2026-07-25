@@ -44,6 +44,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         version: ">=0.4.18"
-    - run: uvx tox -e ${MATRIX_PYTHON_VERSION}
+    - run: uvx tox -e "${MATRIX_PYTHON_VERSION}"
       env:
         MATRIX_PYTHON_VERSION: ${{ matrix.python-version }}

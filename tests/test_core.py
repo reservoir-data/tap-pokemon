@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Edgar-Ramírez Mondragón
+
 """Tests standard tap features using the built-in SDK tests library."""
 
 from __future__ import annotations

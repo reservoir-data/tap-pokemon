@@ -1,17 +1,30 @@
+# Copyright (c) 2026 Edgar-Ramírez Mondragón
+
 """Stream type classes for tap-pokemon."""
 
 from __future__ import annotations
 
+import sys
+from typing import TYPE_CHECKING
+
 from singer_sdk import typing as th
 
 from tap_pokemon.client import PokemonStream
+
+if TYPE_CHECKING:
+    from singer_sdk.helpers.types import Context, Record
+
+if sys.version_info >= (3, 12):
+    from typing import override
+else:
+    from typing_extensions import override
 
 
 class _Endpoint(PokemonStream):
     """Base class for side endpoints."""
 
     name = "__dummy__"
-    schema: dict = {"properties": {}}  # noqa: RUF012
+    schema: dict = {"properties": {}}  # ruff: ignore[mutable-class-default]
 
 
 class _PokemonSpeciesEndpoint(_Endpoint):
@@ -49,7 +62,12 @@ class PokemonSpecies(PokemonStream):
         ),
     ).to_dict()
 
-    def post_process(self, row: dict, context: dict | None = None) -> dict | None:  # noqa: ARG002
+    @override
+    def post_process(
+        self,
+        row: Record,
+        context: Context | None = None,
+    ) -> Record | None:
         """Post-process a row.
 
         Args:
