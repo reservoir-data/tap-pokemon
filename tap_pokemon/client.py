@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, override
+from typing import TYPE_CHECKING, override
 from urllib.parse import parse_qs, urlparse
 
 from requests_cache import CachedSession
@@ -12,7 +12,7 @@ from singer_sdk import RESTStream
 
 if TYPE_CHECKING:
     import requests
-    from singer_sdk.helpers.types import Context
+    from singer_sdk.streams.rest import HTTPRequest, PageContext
 
 
 class PokemonStream(RESTStream):
@@ -28,15 +28,12 @@ class PokemonStream(RESTStream):
         return CachedSession()
 
     @override
-    def get_url_params(self, context: Context | None, next_page_token: str | None) -> dict[str, Any]:
-        params: dict = {}
-        next_url = urlparse(next_page_token) if next_page_token else None
-
-        if next_url:
-            query = parse_qs(next_url.query)
-            params["offset"] = query.get("offset", [""])[0]
-            params["limit"] = query.get("limit", [""])[0]
-        else:
-            params["limit"] = 100
-
-        return params
+    def get_http_request(self, *, page: PageContext[str]) -> HTTPRequest:
+        req = super().get_http_request(page=page)
+        req.params["limit"] = 100
+        if next_url := page.next_page_token:
+            parsed = urlparse(next_url)
+            query = parse_qs(parsed.query)
+            req.params["offset"] = query.get("offset", [""])[0]
+            req.params["limit"] = query.get("limit", [""])[0]
+        return req

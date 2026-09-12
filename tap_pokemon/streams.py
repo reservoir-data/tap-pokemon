@@ -18,7 +18,7 @@ class _Endpoint(PokemonStream):
     """Base class for side endpoints."""
 
     name = "__dummy__"
-    schema: dict = {"properties": {}}  # ruff: ignore[mutable-class-default]
+    schema = {"properties": {}}  # ruff: ignore[mutable-class-default]
 
 
 class _PokemonSpeciesEndpoint(_Endpoint):

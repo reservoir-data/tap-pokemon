@@ -1,11 +1,11 @@
 [build-system]
 build-backend = "hatchling.build"
-requires = [ "hatchling" ]
+requires = [ "hatchling", "hatch-vcs" ]
 
 [project]
 name = "tap-pokemon"
-version = "0.0.1"
-description = "`tap-pokemon` is a Singer tap for Pokemon, built with the Meltano SDK for Singer Taps."
+dynamic = [ "version" ]
+description = "Singer tap for Pokemon, built with the Meltano SDK for Singer Taps."
 readme = "README.md"
 keywords = [
   "ELT",
@@ -21,7 +21,7 @@ classifiers = [
   "Programming Language :: Python :: 3.15",
 ]
 dependencies = [
-  "requests-cache~=1.3.0; python_version<'4'",
+  "requests-cache~=1.3.0",
   "singer-sdk~=0.55.0a1",
 ]
 [[project.authors]]
@@ -35,7 +35,19 @@ Repository = "https://github.com/reservoir-data/tap-pokemon"
 tap-pokemon = "tap_pokemon.tap:TapPokemon.cli"
 
 [dependency-groups]
-dev = [ "pytest~=9.0" ]
+dev = [
+  { include-group = "testing" },
+  { include-group = "typing" },
+]
+testing = [ "pytest~=9.0" ]
+typing = [
+  "mypy>=2.3.1",
+  "ty>=0.0.80",
+]
+
+[tool.hatch.version]
+source = "vcs"
+fallback-version = "0.0.0dev0"
 
 [tool.ruff]
 required-version = ">=0.16"
@@ -58,6 +70,9 @@ pydocstyle.convention = "google"
 table_format = "long"
 
 [tool.mypy]
+warn_unreachable = true
+enable_error_code = [ "ignore-without-code", "redundant-expr", "truthy-bool" ]
+strict = true
 warn_unused_configs = true
 
 [tool.pytest]
