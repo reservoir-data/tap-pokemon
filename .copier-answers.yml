@@ -4,7 +4,7 @@ _src_path: gh:reservoir-data/singer-tap-copier-template
 author_email: edgarrm358@gmail.com
 author_fullname: Edgar Ramírez-Mondragón
 author_username: edgarrmondragon
-python_main_version: '3.10'
+python_main_version: '3.15'
 repository_name: tap-pokemon
 repository_namespace: edgarrmondragon
 repository_provider: github.com

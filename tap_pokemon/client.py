@@ -4,18 +4,14 @@
 
 from __future__ import annotations
 
-import sys
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, override
 from urllib.parse import parse_qs, urlparse
 
+from requests_cache import CachedSession
 from singer_sdk import RESTStream
 
-if sys.version_info >= (3, 12):
-    from typing import override
-else:
-    from typing_extensions import override
-
 if TYPE_CHECKING:
+    import requests
     from singer_sdk.helpers.types import Context
 
 
@@ -24,38 +20,15 @@ class PokemonStream(RESTStream):
 
     records_jsonpath = "$.results[*]"
     next_page_token_jsonpath = "$.next"  # ruff: ignore[hardcoded-password-string]
+    url_base = "https://pokeapi.co"
 
+    @override
     @property
-    @override
-    def url_base(self) -> str:
-        """Base URL of the Pokémon API.
-
-        Returns:
-            Base URL of the Pokémon API.
-        """
-        return self.config["base_url"]
-
-    @property
-    @override
-    def http_headers(self) -> dict:
-        """The HTTP headers."""
-        return {"User-Agent": f"{self.tap_name}/{self._tap.plugin_version}"}
+    def requests_session(self) -> requests.Session:
+        return CachedSession()
 
     @override
-    def get_url_params(
-        self,
-        context: Context | None,
-        next_page_token: str | None,
-    ) -> dict[str, Any]:
-        """Get URL query parameters.
-
-        Args:
-            context: Stream sync context.
-            next_page_token: Next offset.
-
-        Returns:
-            Mapping of URL query parameters.
-        """
+    def get_url_params(self, context: Context | None, next_page_token: str | None) -> dict[str, Any]:
         params: dict = {}
         next_url = urlparse(next_page_token) if next_page_token else None
 

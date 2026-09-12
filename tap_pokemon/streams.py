@@ -4,8 +4,7 @@
 
 from __future__ import annotations
 
-import sys
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, override
 
 from singer_sdk import typing as th
 
@@ -13,11 +12,6 @@ from tap_pokemon.client import PokemonStream
 
 if TYPE_CHECKING:
     from singer_sdk.helpers.types import Context, Record
-
-if sys.version_info >= (3, 12):
-    from typing import override
-else:
-    from typing_extensions import override
 
 
 class _Endpoint(PokemonStream):
@@ -63,20 +57,7 @@ class PokemonSpecies(PokemonStream):
     ).to_dict()
 
     @override
-    def post_process(
-        self,
-        row: Record,
-        context: Context | None = None,
-    ) -> Record | None:
-        """Post-process a row.
-
-        Args:
-            row: A row of data.
-            context: Stream sync context.
-
-        Returns:
-            A row of data.
-        """
+    def post_process(self, row: Record, context: Context | None = None) -> Record | None:
         dummy_stream = _PokemonSpeciesEndpoint(self._tap, schema={"properties": {}})
 
         records_iterator = iter(dummy_stream.request_records({"name": row["name"]}))

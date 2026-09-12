@@ -13,11 +13,9 @@ keywords = [
   "singer.io",
 ]
 license = "Apache-2.0"
-requires-python = ">=3.11"
+requires-python = ">=3.13"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
   "Programming Language :: Python :: 3.15",
@@ -25,24 +23,23 @@ classifiers = [
 dependencies = [
   "requests-cache~=1.3.0; python_version<'4'",
   "singer-sdk~=0.55.0a1",
-  "typing-extensions~=4.0; python_full_version<'3.12'"
 ]
 [[project.authors]]
 name = "Edgar Ramírez-Mondragón"
 email = "edgarrm358@gmail.com"
-[project.scripts]
-tap-pokemon = "tap_pokemon.tap:TapPokemon.cli"
 [project.urls]
 Documentation = "https://github.com/reservoir-data/tap-pokemon#readme"
 Homepage = "https://github.com/reservoir-data/tap-pokemon"
 Repository = "https://github.com/reservoir-data/tap-pokemon"
+[project.scripts]
+tap-pokemon = "tap_pokemon.tap:TapPokemon.cli"
 
 [dependency-groups]
 dev = [ "pytest~=9.0" ]
 
 [tool.ruff]
 required-version = ">=0.16"
-line-length = 88
+line-length = 120
 preview = true
 [tool.ruff.lint]
 select = [ "ALL" ]
@@ -58,7 +55,6 @@ isort.required-imports = [ "from __future__ import annotations" ]
 pydocstyle.convention = "google"
 
 [tool.pyproject-fmt]
-max_supported_python = "3.15"
 table_format = "long"
 
 [tool.mypy]
