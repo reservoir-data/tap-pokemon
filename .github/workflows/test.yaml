@@ -15,7 +15,7 @@ env:
 jobs:
   build-package:
     name: Build & verify package
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       supported-python-versions: ${{ steps.baipp.outputs.supported_python_classifiers_json_array }}
     steps:
@@ -27,7 +27,7 @@ jobs:
 
   tests:
     name: Test
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: build-package
     env:
       PIP_CONSTRAINT: ${{ github.workspace }}/.github/workflows/requirements.txt
